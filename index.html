@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HackDev</title>
+    <!-- AOS Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #595D51;
+            --dark-bg: #000;
+            --light-text: #fff;
+            --secondary-text: #ccc;
+            --card-bg: #1a1a1a;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--light-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background-color: var(--dark-bg);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--light-text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo span {
+            color: var(--primary-color);
+            position: relative;
+        }
+
+        .logo span::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary-color);
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover span::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            color: var(--light-text);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            position: relative;
+            padding: 5px 0;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary-color);
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .hamburger.active {
+            transform: rotate(180deg);
+        }
+
+        .hamburger i {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .hamburger .fa-bars {
+            display: block;
+        }
+
+        .hamburger .fa-times {
+            display: none;
+        }
+
+        .hamburger.active .fa-bars {
+            display: none;
+        }
+
+        .hamburger.active .fa-times {
+            display: block;
+        }
+
+        /* Sidebar Styles - FULL SCREEN */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.95);
+            z-index: 999;
+            transition: right 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+            padding: 100px 30px 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .sidebar.open {
+            right: 0;
+        }
+
+        .sidebar-links {
+            list-style: none;
+            text-align: center;
+        }
+
+        .sidebar-links li {
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.5s ease;
+        }
+
+        .sidebar.open .sidebar-links li {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .sidebar.open .sidebar-links li:nth-child(1) { transition-delay: 0.1s; }
+        .sidebar.open .sidebar-links li:nth-child(2) { transition-delay: 0.2s; }
+        .sidebar.open .sidebar-links li:nth-child(3) { transition-delay: 0.3s; }
+        .sidebar.open .sidebar-links li:nth-child(4) { transition-delay: 0.4s; }
+        .sidebar.open .sidebar-links li:nth-child(5) { transition-delay: 0.5s; }
+
+        .sidebar-links a {
+            color: var(--light-text);
+            text-decoration: none;
+            font-size: 2rem;
+            font-weight: 500;
+            display: block;
+            padding: 15px 0;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-links a:hover {
+            color: var(--primary-color);
+            transform: translateX(10px);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--light-text);
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: var(--primary-color);
+            transform: rotate(90deg);
+        }
+
+        /* Overlay */
+        .overlay1 {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 998;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .overlay1.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 100px 40px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: transparent;
+            color: var(--light-text);
+            border: 2px solid var(--primary-color);
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background-color: var(--primary-color);
+            transition: all 0.3s ease;
+            z-index: -1;
+        }
+
+        .btn:hover {
+            color: var(--dark-bg);
+        }
+
+        .btn:hover::before {
+            width: 100%;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--dark-bg);
+        }
+
+        .btn-primary::before {
+            background-color: var(--light-text);
+        }
+
+        .btn-primary:hover {
+            color: var(--primary-color);
+        }
+
+        /* Intro Section */
+        #intro {
+            background: linear-gradient(to bottom, var(--dark-bg), #222);
+            text-align: center;
+            position: relative;
+        }
+
+        .intro-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .intro-logo {
+            font-size: 5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--light-text);
+        }
+
+        .intro-logo span {
+            color: var(--primary-color);
+        }
+
+        .intro-subtitle {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+            font-weight: 300;
+        }
+
+        .intro-description {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            color: var(--secondary-text);
+        }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            cursor: pointer;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0) translateX(-50%);
+            }
+            40% {
+                transform: translateY(-30px) translateX(-50%);
+            }
+            60% {
+                transform: translateY(-15px) translateX(-50%);
+            }
+        }
+
+        /* About Section */
+        #about {
+            background-color: #111;
+        }
+
+        .about-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-img {
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .about-img img {
+            width: 100%;
+            height: auto;
+            transition: transform 0.5s ease;
+        }
+
+        .about-img:hover img {
+            transform: scale(1.05);
+        }
+
+        .about-content h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--light-text);
+        }
+
+        .about-content p {
+            margin-bottom: 20px;
+            color: var(--secondary-text);
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .skill {
+            padding: 8px 15px;
+            background-color: #222;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--light-text);
+            border: 1px solid var(--primary-color);
+        }
+
+        /* Services Section */
+        #services {
+            background-color: var(--dark-bg);
+        }
+
+        .services-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #333;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(89, 93, 81, 0.2);
+            border-color: var(--primary-color);
+        }
+
+        .service-icon {
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            background: linear-gradient(to right, #333, #000);
+            color: var(--primary-color);
+        }
+
+        .service-content {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .service-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--light-text);
+        }
+
+        .service-content p {
+            color: var(--secondary-text);
+            margin-bottom: 15px;
+        }
+
+        /* Members Section */
+        #members {
+            background-color: #111;
+        }
+
+        /* Horizontal Scroll Container */
+        .members-scroll-container {
+            width: 100%;
+            overflow-x: auto;
+            padding: 20px 0;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-color) transparent;
+        }
+
+        .members-scroll-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .members-scroll-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .members-scroll-container::-webkit-scrollbar-thumb {
+            background-color: var(--primary-color);
+            border-radius: 10px;
+        }
+
+        .members-scroll-track {
+            display: flex;
+            gap: 20px;
+            padding: 0 10px;
+            width: max-content;
+        }
+
+        /* Gaya Kad (Seperti Gambar 1) */
+        .member-card {
+            width: 280px;
+            height: 400px;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .member-card:hover {
+            transform: scale(1.02);
+        }
+
+        /* Overlay Kelabu Transparent (Shadow Effect) */
+        .card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Gradient kelabu transparent seperti shadow */
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Teks Menegak */
+        .overlay-text {
+            color: white;
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: 6px; /* Jarak antara huruf */
+            writing-mode: vertical-lr; /* Teks menegak */
+            text-orientation: upright;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Marquee untuk Kad */
+        .marquee-wrapper {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            margin-top: 50px;
+            /* Kesan 'fade' di tepi */
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+
+        .marquee-track {
+            display: flex;
+            width: max-content;
+            /* Durasi animasi: 216s. (27 kad * 320px lebar) / ~40px/s */
+            animation: marquee-scroll 30s linear infinite;
+        }
+
+        .marquee-wrapper:hover .marquee-track {
+            animation-play-state: paused;
+        }
+
+        @keyframes marquee-scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); } /* Tepat separuh (kerana JS gandakan trek) */
+        }
+
+        /* Modal (Pop-up - Seperti Gambar 3) */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background-color: #1a1a1a; /* Latar belakang pop-up */
+            border-radius: 20px;
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+            /* Diletakkan di tengah */
+            margin: 10vh auto; 
+        }
+
+        /* Butang X */
+        .close-button {
+            color: white;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 10;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.2s ease;
+        }
+        .close-button:hover {
+            transform: scale(1.1) rotate(90deg);
+        }
+
+        .modal-image-container {
+            height: 60vh;
+            max-height: 500px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .modal-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(to top, rgba(26, 26, 26, 1), rgba(26, 26, 26, 0.8), transparent);
+            box-sizing: border-box;
+        }
+
+        .modal-info .role {
+            font-size: 1rem;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .modal-info .name {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin: 5px 0 0 0;
+            color: var(--light-text);
+        }
+
+        .social-button {
+            width: calc(100% - 40px);
+            margin: 20px;
+            padding: 15px;
+            background-color: var(--primary-color);
+            color: var(--light-text);
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+        .social-button .fab {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        .social-button:hover {
+            background-color: #4a4e44;
+            transform: translateY(-2px);
+        }
+
+        /* Projects Section */
+        #projects {
+            background-color: var(--dark-bg);
+        }
+
+        .projects-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .project-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            cursor: pointer;
+            aspect-ratio: 4/3;
+            background-color: var(--card-bg);
+            border: 1px solid #333;
+        }
+
+        .project-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .project-item:hover .project-img {
+            transform: scale(1.1);
+        }
+
+        .project-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            color: var(--light-text);
+        }
+
+        .project-item:hover .project-caption {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .project-caption h3 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .project-caption p {
+            font-size: 0.9rem;
+            color: var(--secondary-text);
+        }
+
+        /* Contact Section */
+        #contact {
+            background-color: #111;
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 50px;
+            text-align: center;
+        }
+
+        .contact-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--light-text);
+        }
+
+        .contact-info p {
+            margin-bottom: 20px;
+            color: var(--secondary-text);
+        }
+
+        .contact-details {
+            margin-top: 30px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .contact-item i {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-right: 15px;
+            width: 20px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-bg);
+            padding: 60px 40px 30px;
+            text-align: center;
+            border-top: 1px solid #333;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+
+        .footer-text {
+            color: var(--secondary-text);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--light-text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background-color: var(--primary-color);
+            color: var(--dark-bg);
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: var(--dark-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 99;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .navbar {
+                padding: 15px 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .intro-logo {
+                font-size: 3.5rem;
+            }
+
+            .intro-subtitle {
+                font-size: 1.5rem;
+            }
+
+            .about-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            section {
+                padding: 80px 20px;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .intro-logo {
+                font-size: 2.8rem;
+            }
+
+            .intro-subtitle {
+                font-size: 1.3rem;
+            }
+
+            .projects-container {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+
+            .services-container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar-links a {
+                font-size: 1.5rem;
+            }
+
+            .member-card {
+                width: 250px;
+                height: 350px;
+            }
+
+            .overlay-text {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .intro-logo {
+                font-size: 2.2rem;
+            }
+
+            .projects-container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar-links a {
+                font-size: 1.2rem;
+            }
+            
+            .project-caption {
+                padding: 10px;
+            }
+            
+            .project-caption h3 {
+                font-size: 1rem;
+            }
+            
+            .project-caption p {
+                font-size: 0.8rem;
+            }
+
+            .member-card {
+                width: 220px;
+                height: 320px;
+            }
+
+            .overlay-text {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="#" class="logo">Hack<span>Dev</span></a>
+        <ul class="nav-links">
+            <li><a href="#intro">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#members">Members</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="hamburger">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-times"></i>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="close-btn">
+            <i class="fas fa-times"></i>
+        </div>
+        <ul class="sidebar-links">
+            <li><a href="#intro">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#members">Members</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay1"></div>
+
+    <!-- Intro Section -->
+    <section id="intro">
+        <div class="intro-content" data-aos="fade-up" data-aos-duration="1000">
+            <h1 class="intro-logo">Hack<span>Dev</span></h1>
+            <h2 class="intro-subtitle">CyberSecurity Community</h2>
+            <p class="intro-description">
+                We focus on ethical hacking,education and CTF Competition
+            </p>
+            <a href="#projects" class="btn">Our Members <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <a href="#about" style="color: white; text-decoration:none;">
+        <div class="scroll-down" id="scrollDown">
+            <i class="fas fa-chevron-down fa-2x"></i>
+        </div></a>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <h2 class="section-title" data-aos="fade-right">About Us</h2>
+        <div class="about-container">
+            <div class="about-img" data-aos="fade-right">
+                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="HackDev Team">
+            </div>
+            <div class="about-content" data-aos="fade-left">
+                <h3>HackDev Community <i class="fas fa-code"></i></h3>
+                <p>HackDev is a community of passionate developers dedicated to creating innovative digital solutions. We believe in the power of technology to transform ideas into reality and solve complex problems.</p>
+                <p>Our team consists of experienced developers, designers, and project managers who work together to deliver high-quality products that exceed client expectations.</p>
+                <div class="skills">
+                    <span class="skill"><i class="fas fa-laptop-code"></i> Web Development</span>
+                    <span class="skill"><i class="fas fa-mobile-alt"></i> Mobile Apps</span>
+                    <span class="skill"><i class="fas fa-cloud"></i> Cloud Solutions</span>
+                    <span class="skill"><i class="fas fa-database"></i> Database Design</span>
+                    <span class="skill"><i class="fas fa-shield-alt"></i> Cybersecurity</span>
+                    <span class="skill"><i class="fas fa-robot"></i> AI & ML</span>
+                </div>
+                <a href="#contact" class="btn" style="margin-top: 20px;">Get In Touch <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+<!-- Members Section -->
+    <section id="members">
+        <h2 class="section-title" data-aos="fade-right">Our Team</h2>
+        
+        <!-- Horizontal Scroll Container -->
+        <div class="members-scroll-container" data-aos="fade-up">
+            <div class="members-scroll-track" id="membersScrollTrack"></div>
+        </div>
+        
+    </section>
+
+    <div id="memberModal" class="modal"></div>
+    <!-- Services Section -->
+    <section id="services">
+        <h2 class="section-title" data-aos="fade-right">Our Services</h2>
+        <div class="services-container">
+            <div class="service-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="service-icon">
+                    <i class="fas fa-laptop-code"></i>
+                </div>
+                <div class="service-content">
+                    <h3>Web Development</h3>
+                    <p>Custom websites and web applications built with modern technologies and responsive design principles.</p>
+                    <a href="#contact" class="btn">Learn More</a>
+                </div>
+            </div>
+            <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="service-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <div class="service-content">
+                    <h3>Mobile Development</h3>
+                    <p>Native and cross-platform mobile applications for iOS and Android with intuitive user interfaces.</p>
+                    <a href="#contact" class="btn">Learn More</a>
+                </div>
+            </div>
+            <div class="service-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="service-icon">
+                    <i class="fas fa-cloud"></i>
+                </div>
+                <div class="service-content">
+                    <h3>Cloud Solutions</h3>
+                    <p>Scalable cloud infrastructure and deployment solutions to ensure optimal performance and reliability.</p>
+                    <a href="#contact" class="btn">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <h2 class="section-title" data-aos="fade-right">Our Projects</h2>
+        <div class="projects-container">
+            <div class="project-item" data-aos="zoom-in" data-aos-delay="100">
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1115&q=80" alt="E-commerce Platform" class="project-img">
+                <div class="project-caption">
+                    <h3>E-commerce Platform</h3>
+                    <p>Full-featured online store with payment integration</p>
+                </div>
+            </div>
+            <div class="project-item" data-aos="zoom-in" data-aos-delay="150">
+                <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Fitness App" class="project-img">
+                <div class="project-caption">
+                    <h3>Fitness Tracker</h3>
+                    <p>Mobile app for workout tracking and nutrition planning</p>
+                </div>
+            </div>
+            <div class="project-item" data-aos="zoom-in" data-aos-delay="200">
+                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1172&q=80" alt="Data Analytics" class="project-img">
+                <div class="project-caption">
+                    <h3>Data Analytics Dashboard</h3>
+                    <p>Real-time business intelligence and reporting tool</p>
+                </div>
+            </div>
+            <div class="project-item" data-aos="zoom-in" data-aos-delay="250">
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Portfolio Website" class="project-img">
+                <div class="project-caption">
+                    <h3>Portfolio Website</h3>
+                    <p>Creative portfolio for a digital artist</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2 class="section-title" data-aos="fade-right">Contact Us</h2>
+        <div class="contact-container">
+            <div class="contact-info" data-aos="fade-up">
+                <h3>Get In Touch</h3>
+                <p>Ready to start your next project? We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+                
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <p>123 Developer Street, Tech City</p>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <p>+1 (555) 123-4567</p>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <p>hello@hackdev.com</p>
+                    </div>
+                </div>
+                <a href="mailto:hello@hackdev.com" class="btn" style="margin-top: 20px;">Email Us <i class="fas fa-envelope"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <h3>HackDev</h3>
+            <p class="footer-text">Developer Community</p>
+            <p class="footer-text">Transforming ideas into digital reality</p>
+            
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+        <p>&copy; 2023 HackDev. All rights reserved.</p>
+        <a href="#" class="back-to-top" id="backToTop">
+            <i class="fas fa-arrow-up"></i>
+        </a>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100
+        });
+
+        // DOM Elements
+        const hamburger = document.querySelector('.hamburger');
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.querySelector('.overlay1');
+        const closeBtn = document.querySelector('.close-btn');
+        const navLinks = document.querySelectorAll('.nav-links a, .sidebar-links a');
+        const scrollDownBtn = document.getElementById('scrollDown');
+        const backToTopBtn = document.getElementById('backToTop');
+        const navbar = document.querySelector('.navbar');
+        const marqueeTrack = document.getElementById('marqueeTrack');
+        const membersScrollTrack = document.getElementById('membersScrollTrack');
+        const modalContainer = document.getElementById('memberModal');
+        const allButtons = document.querySelectorAll('.btn');
+
+        // Toggle sidebar
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = sidebar.classList.contains('open') ? 'hidden' : '';
+        });
+
+        // Close sidebar
+        closeBtn.addEventListener('click', closeSidebar);
+        overlay.addEventListener('click', closeSidebar);
+
+        function closeSidebar() {
+            hamburger.classList.remove('active');
+            sidebar.classList.remove('open');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Smooth scrolling function
+        function smoothScroll(target) {
+            const targetSection = document.querySelector(target);
+            if (targetSection) {
+                window.scrollTo({
+                    top: targetSection.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        // Smooth scrolling for navigation links
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                
+                closeSidebar();
+                smoothScroll(targetId);
+            });
+        });
+
+        // Smooth scrolling for all buttons
+        allButtons.forEach(button => {
+            if (button.getAttribute('href') && button.getAttribute('href').startsWith('#')) {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = button.getAttribute('href');
+                    smoothScroll(targetId);
+                });
+            }
+        });
+
+        // Scroll down button
+        scrollDownBtn.addEventListener('click', () => {
+            smoothScroll('#about');
+        });
+
+        // Back to top button
+        window.addEventListener('scroll', () => {
+            // Toggle back to top button
+            if (window.pageYOffset > 500) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+            
+            // Navbar background change on scroll
+            if (window.pageYOffset > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            smoothScroll('#intro');
+        });
+
+        // JavaScript untuk Members Section
+        document.addEventListener("DOMContentLoaded", function() {
+            // Data untuk Members
+            const allMembers = [
+                {
+                    name: "Fizam",
+                    role: "Hello! My name",
+                    img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
+                    verticalText: "Z A M",
+                    buttonText: "Admin"
+                },
+                {
+                    name: "Keii",
+                    role: "Hello! My name",
+                    img: "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
+                    verticalText: "K E I",
+                    buttonText: "Co-Admin"
+                },
+                {
+                    name: "Alia",
+                    role: "Hello! My name",
+                    img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                    verticalText: "L I A",
+                    buttonText: "Member"
+                },
+                {
+                    name: "Bashirah",
+                    role: "Hello! My name",
+                    img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=761&q=80",
+                    verticalText: " ",
+                    buttonText: "Member"
+                },
+                {
+                    name: "Naufal",
+                    role: "Hello! My name",
+                    img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
+                    verticalText: "N A U",
+                    buttonText: "Member"
+                },
+                {
+                    name: "Lisa Thompson",
+                    role: "Data Scientist",
+                    img: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80",
+                    verticalText: "L S A",
+                    buttonText: "Data Science"
+                },
+                {
+                    name: "James Anderson",
+                    role: "DevOps Engineer",
+                    img: "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                    verticalText: "J M S",
+                    buttonText: "DevOps"
+                },
+                {
+                    name: "Maria Garcia",
+                    role: "Frontend Developer",
+                    img: "https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
+                    verticalText: "M R A",
+                    buttonText: "Frontend Development"
+                }
+            ];
+
+            // Fungsi untuk buat kad member
+            function createCard(data) {
+                const card = document.createElement('div');
+                card.className = 'member-card';
+                card.style.backgroundImage = `url(${data.img})`;
+
+                let verticalText = data.verticalText || data.name.split('').join(' ');
+
+                card.innerHTML = `
+                    <div class="card-overlay">
+                        <div class="overlay-text">${verticalText}</div>
+                    </div>
+                `;
+
+                // Tambah 'click listener' pada setiap kad
+                card.addEventListener('click', () => {
+                    showModal(data);
+                });
+
+                return card;
+            }
+
+            // Fungsi untuk buat modal member
+            function showModal(data) {
+                modalContainer.innerHTML = `
+                    <div class="modal-content">
+                        <span class="close-button" id="closeModal"><i class="fas fa-times"></i></span>
+                        
+                        <div class="modal-image-container" style="background-image: url(${data.img});">
+                            <div class="modal-info">
+                                <p class="role">${data.role}</p>
+                                <p class="name">${data.name}</p>
+                            </div>
+                        </div>
+
+                        <button class="social-button">
+                            <i class="fas fa-user"></i> 
+                            ${data.buttonText || 'View Profile'}
+                        </button>
+                    </div>
+                `;
+                
+                // Paparkan modal
+                modalContainer.style.display = "block";
+
+                // Tambah event listener untuk butang 'x' yang BARU dibuat
+                document.getElementById('closeModal').onclick = closeModal;
+            }
+
+            function closeModal() {
+                modalContainer.style.display = "none";
+            }
+            
+            // Jana kad member untuk horizontal scroll
+            allMembers.forEach((data) => {
+                const card = createCard(data);
+                membersScrollTrack.appendChild(card);
+            });
+            
+            // Jana kad member + klon untuk marquee
+            const originalCardData = [];
+            
+            // 1. Tambah semua ahli
+            allMembers.forEach((member) => {
+                originalCardData.push({...member});
+            });
+            
+            // 2. Buat kad asal DAN klon dan pasang event listener
+            [...originalCardData, ...originalCardData].forEach((data) => {
+                // Cipta kad
+                const card = createCard(data);
+                
+                // Tambah ke marquee
+                marqueeTrack.appendChild(card);
+            });
+
+            // Tutup modal jika klik di luar
+            window.onclick = function(event) {
+                if (event.target === modalContainer) {
+                    closeModal();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
