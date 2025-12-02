@@ -132,16 +132,13 @@
 
         /* Main Container */
         .main-container {
-            max-width: 1200px;
+            max-width: 800px; /* Lebih kecil untuk 1 kolom */
             margin: 40px auto;
             padding: 0 20px;
         }
 
         /* Header Section */
         .header-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             margin-bottom: 30px;
             padding-bottom: 15px;
             border-bottom: 1px solid #333;
@@ -165,12 +162,11 @@
             background-color: var(--primary-color);
         }
 
-        /* Profile Cards Grid */
-        .profiles-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        /* Profile Cards - 1 COLUMN */
+        .profiles-container {
+            display: flex;
+            flex-direction: column;
             gap: 30px;
-            margin-bottom: 50px;
         }
 
         .profile-card {
@@ -180,9 +176,6 @@
             transition: all 0.3s ease;
             border: 1px solid #333;
             position: relative;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
         }
 
         .profile-card:hover {
@@ -191,7 +184,7 @@
             border-color: var(--primary-color);
         }
 
-        /* Profile Banner */
+        /* Profile Banner - SIMPLE */
         .profile-banner {
             height: 120px;
             width: 100%;
@@ -216,14 +209,12 @@
             padding: 25px;
             position: relative;
             margin-top: -50px;
-            flex: 1;
         }
 
         .profile-img-container {
             position: relative;
             margin-right: 25px;
             z-index: 2;
-            flex-shrink: 0;
         }
 
         .profile-img {
@@ -266,27 +257,27 @@
         }
 
         .profile-name {
-            font-size: 1.4rem;
+            font-size: 1.6rem;
             font-weight: 700;
             color: var(--light-text);
             margin-bottom: 8px;
         }
 
         .profile-title {
-            font-size: 0.95rem;
+            font-size: 1.05rem;
             color: var(--secondary-text);
             line-height: 1.5;
+            margin-bottom: 15px;
             background-color: rgba(255, 255, 255, 0.05);
             padding: 12px 15px;
             border-radius: 10px;
             border-left: 3px solid var(--primary-color);
-            min-height: 80px;
         }
 
         .card-body {
             padding: 0 25px 25px 25px;
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
             background-color: rgba(0, 0, 0, 0.2);
             margin: 0 25px 25px 25px;
@@ -297,7 +288,7 @@
         /* Visit Button */
         .visit-button {
             display: inline-block;
-            padding: 12px 25px;
+            padding: 12px 30px;
             background-color: transparent;
             color: var(--light-text);
             border: 2px solid var(--primary-color);
@@ -309,8 +300,6 @@
             position: relative;
             overflow: hidden;
             z-index: 1;
-            width: 100%;
-            text-align: center;
         }
 
         .visit-button::before {
@@ -394,12 +383,6 @@
         }
 
         /* Responsive */
-        @media (max-width: 1024px) {
-            .profiles-grid {
-                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            }
-        }
-
         @media (max-width: 768px) {
             .banner h1 {
                 font-size: 2rem;
@@ -409,11 +392,6 @@
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 15px;
-            }
-            
-            .profiles-grid {
-                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-                gap: 20px;
             }
             
             .card-header {
@@ -433,18 +411,17 @@
                 height: 100px;
             }
             
-            .profile-name {
-                font-size: 1.3rem;
-            }
-            
-            .profile-title {
-                font-size: 0.9rem;
-                min-height: 70px;
-            }
-            
             .card-body {
+                flex-direction: column;
+                gap: 20px;
+                align-items: center;
+                text-align: center;
                 margin: 0 15px 20px 15px;
-                padding: 15px;
+            }
+            
+            .visit-button {
+                width: 100%;
+                justify-content: center;
             }
         }
 
@@ -461,8 +438,8 @@
                 padding: 0 15px;
             }
             
-            .profiles-grid {
-                grid-template-columns: 1fr;
+            .profile-name {
+                font-size: 1.3rem;
             }
             
             .profile-banner {
@@ -477,7 +454,7 @@
     <div class="banner" data-aos="fade-down" data-aos-duration="800">
         <div class="banner-content">
             <h1><span><i class="fab fa-linkedin"></i>LinkedIn</span></h1>
-            <p>Visit our community members' LinkedIn profiles</p>
+            <p>visit our community members' LinkedIn profiles</p>
             <a href="index.html" class="back-button">
                 <i class="fas fa-arrow-left"></i> Back to home
             </a>
@@ -487,10 +464,10 @@
     <!-- Main Content -->
     <div class="main-container">
         <div class="header-section" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
-            <h2 class="header-title">Our Member's Personal Account (20 Members)</h2>
+            <h2 class="header-title">Our Member's Personal Account</h2>
         </div>
 
-        <div class="profiles-grid">
+        <div class="profiles-container">
             <!-- Profile 1: Muhammad Syafizam -->
             <div class="profile-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
                 <div class="profile-banner" style="background-image: url('mybanner.jpg')">
@@ -503,7 +480,9 @@
                         <div class="linkedin-badge">in</div>
                     </div>
                     <div class="profile-info">
-                        <div class="profile-name">Muhammad Syafizam</div>
+                        <div class="profile-name">
+                           Muhammad Syafizam
+                        </div>
                         <div class="profile-title">17 years old | CTF Player NADI X CyberSecurity | Science Computer Student | SMK Bongawan | White Hat Hacker | Red team | CyberSecurity Student | Junior CyberSecurity</div>
                     </div>
                 </div>
@@ -526,8 +505,14 @@
                         <div class="linkedin-badge">in</div>
                     </div>
                     <div class="profile-info">
-                        <div class="profile-name">Alia Dania</div>
-                        <div class="profile-title">18 years old. Love physics and curious about everything—especially cybersecurity, computer science, geophysics and anything about life. A science stream high school graduate and always learning!</div>
+                        <div class="profile-name">
+                            Alia Dania
+                        </div>
+                        <div class="profile-title">18 years old. Love physics and curious about
+everything—especially cybersecurity, computer
+science, geophysics and anything about life.
+A science stream high school graduate and
+always learning!</div>
                     </div>
                 </div>
                 <div class="card-body">
@@ -549,7 +534,9 @@
                         <div class="linkedin-badge">in</div>
                     </div>
                     <div class="profile-info">
-                        <div class="profile-name">Khairul Zuhaili (Keii)</div>
+                        <div class="profile-name">
+                            Khairul Zuhaili(Keii)
+                        </div>
                         <div class="profile-title">CyberSecurity | Penetration Tester | experienced in Website Exploitation, Leaking Databases</div>
                     </div>
                 </div>
@@ -572,7 +559,9 @@
                         <div class="linkedin-badge">in</div>
                     </div>
                     <div class="profile-info">
-                        <div class="profile-name">Bashirah Rafi</div>
+                        <div class="profile-name">
+                           Bashirah Rafi
+                        </div>
                         <div class="profile-title">JPA scholar in computer forensic | Hackathon competitor | Building CyberSecurity solution</div>
                     </div>
                 </div>
@@ -595,357 +584,14 @@
                         <div class="linkedin-badge">in</div>
                     </div>
                     <div class="profile-info">
-                        <div class="profile-name">Aathi Adrian</div>
+                        <div class="profile-name">
+                           Aathi Adrian
+                        </div>
                         <div class="profile-title">Cybersecurity Enthusiast | Learning Ethical Hacking | Passionate about Network Security</div>
                     </div>
                 </div>
                 <div class="card-body">
                     <a href="https://www.linkedin.com/in/aathi-adrian-134304288?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="visit-button">
-                        <i class="fab fa-linkedin"></i> Add to Your connection
-                    </a>
-                </div>
-            </div>
-
-            <!-- Profile 6: Sarah Lee -->
-            <div class="profile-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="500">
-                <div class="profile-banner" style="background-image: url('https://images.unsplash.com/photo-1555949963-aa79dcee981c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80')">
-                </div>
-                <div class="card-header">
-                    <div class="profile-img-container">
-                        <img src="https://randomuser.me/api/portraits/women/32.jpg" 
-                             alt="Sarah Lee" 
-                             class="profile-img">
-                        <div class="linkedin-badge">in</div>
-                    </div>
-                    <div class="profile-info">
-                        <div class="profile-name">Sarah Lee</div>
-                        <div class="profile-title">Security Analyst | Incident Response Specialist | Threat Intelligence | SIEM Expert</div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <a href="#" target="_blank" class="visit-button">
-                        <i class="fab fa-linkedin"></i> Add to Your connection
-                    </a>
-                </div>
-            </div>
-
-            <!-- Profile 7: Ahmad Faris -->
-            <div class="profile-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
-                <div class="profile-banner" style="background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80')">
-                </div>
-                <div class="card-header">
-                    <div class="profile-img-container">
-                        <img src="https://randomuser.me/api/portraits/men/75.jpg" 
-                             alt="Ahmad Faris" 
-                             class="profile-img">
-                        <div class="linkedin-badge">in</div>
-                    </div>
-                    <div class="profile-info">
-                        <div class="profile-name">Ahmad Faris</div>
-                        <div class="profile-title">Penetration Tester | Bug Bounty Hunter | Web Application Security | OSCP Certified</div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <a href="#" target="_blank" class="visit-button">
-                        <i class="fab fa-linkedin"></i> Add to Your connection
-                    </a>
-                </div>
-            </div>
-
-            <!-- Profile 8: Mei Ling -->
-            <div class="profile-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
-                <div class="profile-banner" style="background-image: url('https://images.unsplash.com/photo-1562813733-b31f71025d54?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80')">
-                </div>
-                <div class="card-header">
-                    <div class="profile-img-container">
-                        <img src="https://randomuser.me/api/portraits/women/44.jpg" 
-                             alt="Mei Ling" 
-                             class="profile-img">
-                        <div class="linkedin-badge">in</div>
-                    </div>
-                    <div class="profile-info">
-                        <div class="profile-name">Mei Ling</div>
-                        <div class="profile-title">Digital Forensics Expert | Incident Response | Malware Analysis | Data Recovery Specialist</div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <a href="#" target="_blank" class="visit-button">
-                        <i class="fab fa-linkedin"></i> Add to Your connection
-                    </a>
-                </div>
-            </div>
-
-            <!-- Profile 9: Raj Kumar -->
-            <div class="profile-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="500">
-                <div class="profile-banner" style="background-image: url('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80')">
-                </div>
-                <div class="card-header">
-                    <div class="profile-img-container">
-                        <img src="https://randomuser.me/api/portraits/men/32.jpg" 
-                             alt="Raj Kumar" 
-                             class="profile-img">
-                        <div class="linkedin-badge">in</div>
-                    </div>
-                    <div class="profile-info">
-                        <div class="profile-name">Raj Kumar</div>
-                        <div class="profile-title">Network Security Engineer | Firewall Configuration | VPN Specialist | Cloud Security</div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <a href="#" target="_blank" class="visit-button">
-                        <i class="fab fa-linkedin"></i> Add to Your connection
-                    </a>
-                </div>
-            </div>
-
-            <!-- Profile 10: Elena Rodriguez -->
-            <div class="profile-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
-                <div class="profile-banner" style="background-image: url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80')">
-                </div>
-                <div class="card-header">
-                    <div class="profile-img-container">
-                        <img src="https://randomuser.me/api/portraits/women/28.jpg" 
-                             alt="Elena Rodriguez" 
-                             class="profile-img">
-                        <div class="linkedin-badge">in</div>
-                    </div>
-                    <div class="profile-info">
-                        <div class="profile-name">Elena Rodriguez</div>
-                        <div class="profile-title">Security Operations Center (SOC) Analyst | Threat Hunting | Log Analysis | Security Monitoring</div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <a href="#" target="_blank" class="visit-button">
-                        <i class="fab fa-linkedin"></i> Add to Your connection
-                    </a>
-                </div>
-            </div>
-
-            <!-- Profile 11: Kenji Tanaka -->
-            <div class="profile-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
-                <div class="profile-banner" style="background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80')">
-                </div>
-                <div class="card-header">
-                    <div class="profile-img-container">
-                        <img src="https://randomuser.me/api/portraits/men/55.jpg" 
-                             alt="Kenji Tanaka" 
-                             class="profile-img">
-                        <div class="linkedin-badge">in</div>
-                    </div>
-                    <div class="profile-info">
-                        <div class="profile-name">Kenji Tanaka</div>
-                        <div class="profile-title">Cryptography Specialist | Blockchain Security | Encryption Algorithms | Zero-Knowledge Proofs</div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <a href="#" target="_blank" class="visit-button">
-                        <i class="fab fa-linkedin"></i> Add to Your connection
-                    </a>
-                </div>
-            </div>
-
-            <!-- Profile 12: Nadia Ali -->
-            <div class="profile-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="500">
-                <div class="profile-banner" style="background-image: url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80')">
-                </div>
-                <div class="card-header">
-                    <div class="profile-img-container">
-                        <img src="https://randomuser.me/api/portraits/women/65.jpg" 
-                             alt="Nadia Ali" 
-                             class="profile-img">
-                        <div class="linkedin-badge">in</div>
-                    </div>
-                    <div class="profile-info">
-                        <div class="profile-name">Nadia Ali</div>
-                        <div class="profile-title">Cybersecurity Consultant | Risk Assessment | Compliance Auditor | ISO 27001 Specialist</div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <a href="#" target="_blank" class="visit-button">
-                        <i class="fab fa-linkedin"></i> Add to Your connection
-                    </a>
-                </div>
-            </div>
-
-            <!-- Profile 13: David Chen -->
-            <div class="profile-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
-                <div class="profile-banner" style="background-image: url('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80')">
-                </div>
-                <div class="card-header">
-                    <div class="profile-img-container">
-                        <img src="https://randomuser.me/api/portraits/men/45.jpg" 
-                             alt="David Chen" 
-                             class="profile-img">
-                        <div class="linkedin-badge">in</div>
-                    </div>
-                    <div class="profile-info">
-                        <div class="profile-name">David Chen</div>
-                        <div class="profile-title">Mobile Security Researcher | iOS/Android Penetration Testing | Reverse Engineering | App Security</div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <a href="#" target="_blank" class="visit-button">
-                        <i class="fab fa-linkedin"></i> Add to Your connection
-                    </a>
-                </div>
-            </div>
-
-            <!-- Profile 14: Fatimah Hassan -->
-            <div class="profile-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
-                <div class="profile-banner" style="background-image: url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80')">
-                </div>
-                <div class="card-header">
-                    <div class="profile-img-container">
-                        <img src="https://randomuser.me/api/portraits/women/33.jpg" 
-                             alt="Fatimah Hassan" 
-                             class="profile-img">
-                        <div class="linkedin-badge">in</div>
-                    </div>
-                    <div class="profile-info">
-                        <div class="profile-name">Fatimah Hassan</div>
-                        <div class="profile-title">Security Awareness Trainer | Phishing Simulation | Employee Training | Security Culture Development</div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <a href="#" target="_blank" class="visit-button">
-                        <i class="fab fa-linkedin"></i> Add to Your connection
-                    </a>
-                </div>
-            </div>
-
-            <!-- Profile 15: Marcus Wong -->
-            <div class="profile-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="500">
-                <div class="profile-banner" style="background-image: url('https://images.unsplash.com/photo-1562813733-b31f71025d54?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80')">
-                </div>
-                <div class="card-header">
-                    <div class="profile-img-container">
-                        <img src="https://randomuser.me/api/portraits/men/22.jpg" 
-                             alt="Marcus Wong" 
-                             class="profile-img">
-                        <div class="linkedin-badge">in</div>
-                    </div>
-                    <div class="profile-info">
-                        <div class="profile-name">Marcus Wong</div>
-                        <div class="profile-title">Cloud Security Architect | AWS/Azure Security | Container Security | DevOps Security</div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <a href="#" target="_blank" class="visit-button">
-                        <i class="fab fa-linkedin"></i> Add to Your connection
-                    </a>
-                </div>
-            </div>
-
-            <!-- Profile 16: Sofia Martinez -->
-            <div class="profile-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
-                <div class="profile-banner" style="background-image: url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80')">
-                </div>
-                <div class="card-header">
-                    <div class="profile-img-container">
-                        <img src="https://randomuser.me/api/portraits/women/56.jpg" 
-                             alt="Sofia Martinez" 
-                             class="profile-img">
-                        <div class="linkedin-badge">in</div>
-                    </div>
-                    <div class="profile-info">
-                        <div class="profile-name">Sofia Martinez</div>
-                        <div class="profile-title">IoT Security Researcher | Embedded Systems Security | Hardware Hacking | Firmware Analysis</div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <a href="#" target="_blank" class="visit-button">
-                        <i class="fab fa-linkedin"></i> Add to Your connection
-                    </a>
-                </div>
-            </div>
-
-            <!-- Profile 17: Hassan Abdullah -->
-            <div class="profile-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
-                <div class="profile-banner" style="background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80')">
-                </div>
-                <div class="card-header">
-                    <div class="profile-img-container">
-                        <img src="https://randomuser.me/api/portraits/men/67.jpg" 
-                             alt="Hassan Abdullah" 
-                             class="profile-img">
-                        <div class="linkedin-badge">in</div>
-                    </div>
-                    <div class="profile-info">
-                        <div class="profile-name">Hassan Abdullah</div>
-                        <div class="profile-title">Red Team Lead | Advanced Persistent Threat Simulation | Social Engineering | Physical Security Testing</div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <a href="#" target="_blank" class="visit-button">
-                        <i class="fab fa-linkedin"></i> Add to Your connection
-                    </a>
-                </div>
-            </div>
-
-            <!-- Profile 18: Lisa Wang -->
-            <div class="profile-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="500">
-                <div class="profile-banner" style="background-image: url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80')">
-                </div>
-                <div class="card-header">
-                    <div class="profile-img-container">
-                        <img src="https://randomuser.me/api/portraits/women/23.jpg" 
-                             alt="Lisa Wang" 
-                             class="profile-img">
-                        <div class="linkedin-badge">in</div>
-                    </div>
-                    <div class="profile-info">
-                        <div class="profile-name">Lisa Wang</div>
-                        <div class="profile-title">Blue Team Defender | Security Automation | SOAR Implementation | Threat Intelligence Integration</div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <a href="#" target="_blank" class="visit-button">
-                        <i class="fab fa-linkedin"></i> Add to Your connection
-                    </a>
-                </div>
-            </div>
-
-            <!-- Profile 19: Omar Sharif -->
-            <div class="profile-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
-                <div class="profile-banner" style="background-image: url('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80')">
-                </div>
-                <div class="card-header">
-                    <div class="profile-img-container">
-                        <img src="https://randomuser.me/api/portraits/men/88.jpg" 
-                             alt="Omar Sharif" 
-                             class="profile-img">
-                        <div class="linkedin-badge">in</div>
-                    </div>
-                    <div class="profile-info">
-                        <div class="profile-name">Omar Sharif</div>
-                        <div class="profile-title">Cyber Threat Intelligence Analyst | Dark Web Monitoring | APT Tracking | Strategic Intelligence</div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <a href="#" target="_blank" class="visit-button">
-                        <i class="fab fa-linkedin"></i> Add to Your connection
-                    </a>
-                </div>
-            </div>
-
-            <!-- Profile 20: Chloe Bennett -->
-            <div class="profile-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
-                <div class="profile-banner" style="background-image: url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80')">
-                </div>
-                <div class="card-header">
-                    <div class="profile-img-container">
-                        <img src="https://randomuser.me/api/portraits/women/42.jpg" 
-                             alt="Chloe Bennett" 
-                             class="profile-img">
-                        <div class="linkedin-badge">in</div>
-                    </div>
-                    <div class="profile-info">
-                        <div class="profile-name">Chloe Bennett</div>
-                        <div class="profile-title">Security Software Developer | Secure Coding Practices | Application Security | DevSecOps Engineer</div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <a href="#" target="_blank" class="visit-button">
                         <i class="fab fa-linkedin"></i> Add to Your connection
                     </a>
                 </div>
