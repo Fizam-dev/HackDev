@@ -628,12 +628,12 @@
                 </div>
             </div>
 
-            <!-- Profile 2: Tony Fernandes -->
+            <!-- Profile 2: Alia Dania -->
             <div class="profile-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
-                <div class="profile-banner" style="background-image: url('liabanner.jpg')" data-image-src="liabanner.jpg" data-caption="Banner Profil - Tony Fernandes"></div>
+                <div class="profile-banner" style="background-image: url('liabanner.jpg')" data-image-src="liabanner.jpg" data-caption="Banner Profil - Alia Dania"></div>
                 <div class="card-header">
                     <div class="profile-img-container">
-                        <img src="lia.jpg" alt="Tony Fernandes" class="profile-img" data-image-src="lia.jpg" data-caption="alia">
+                        <img src="lia.jpg" alt="Alia Dania" class="profile-img" data-image-src="lia.jpg" data-caption="Alia Dania - Chief Executive Officer di Capital A">
                         <div class="linkedin-badge">in</div>
                     </div>
                     <div class="profile-info">
@@ -641,7 +641,6 @@
                             Alia Dania
                         </div>
                         <div class="profile-title">Chief Executive Officer di Capital A - Memimpin transformasi digital dan penerbangan serantau dengan visi inovatif dan kepimpinan strategik.</div>
-                        
                     </div>
                 </div>
                 <div class="card-body">
@@ -751,13 +750,34 @@
             }
         });
 
-        // Add click event to profile images
+        // Add click event to ALL profile images and banners
         document.querySelectorAll('.profile-img, .profile-banner').forEach(element => {
             element.addEventListener('click', function(e) {
                 e.stopPropagation();
+                
+                // Get the image source and caption from data attributes
                 const imageSrc = this.getAttribute('data-image-src') || this.src;
                 const caption = this.getAttribute('data-caption') || this.alt;
-                openImageModal(imageSrc, caption);
+                
+                // If no image source is found, fallback to background-image
+                if (!imageSrc && this.classList.contains('profile-banner')) {
+                    const bgImage = this.style.backgroundImage;
+                    if (bgImage) {
+                        // Extract URL from background-image: url('...')
+                        const urlMatch = bgImage.match(/url\(['"]?(.*?)['"]?\)/);
+                        if (urlMatch && urlMatch[1]) {
+                            openImageModal(urlMatch[1], caption);
+                            return;
+                        }
+                    }
+                }
+                
+                // Open modal with the image
+                if (imageSrc) {
+                    openImageModal(imageSrc, caption);
+                } else {
+                    console.warn('No image source found for element:', this);
+                }
             });
         });
 
