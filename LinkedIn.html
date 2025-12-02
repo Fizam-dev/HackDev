@@ -11,14 +11,12 @@
     <!-- AOS CSS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
-        /* Tema dari index.html */
         :root {
             --primary-color: #595D51;
             --dark-bg: #000;
             --light-text: #fff;
             --secondary-text: #ccc;
             --card-bg: #1a1a1a;
-            --error-color: #ff6b6b;
         }
 
         * {
@@ -27,7 +25,6 @@
             box-sizing: border-box;
         }
 
-        /* Smooth intro animation */
         body {
             background-color: var(--dark-bg);
             color: var(--light-text);
@@ -40,136 +37,8 @@
         }
 
         @keyframes fadeInBody {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Image Loading Indicator */
-        .image-loading {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #333;
-            color: var(--secondary-text);
-            font-size: 0.9rem;
-        }
-
-        .image-loading i {
-            margin-right: 8px;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .image-error {
-            background-color: #222;
-            color: var(--error-color);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .image-error i {
-            font-size: 2rem;
-            margin-bottom: 10px;
-        }
-
-        /* Modal Styling */
-        .image-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
-            animation: modalFadeIn 0.3s ease-out;
-        }
-
-        @keyframes modalFadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .modal-content {
-            position: relative;
-            width: 90%;
-            max-width: 900px;
-            height: 90vh;
-            margin: 5vh auto;
-            background-color: transparent;
-            border-radius: 10px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .modal-img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            cursor: zoom-in;
-            transition: transform 0.3s ease;
-        }
-
-        .modal-img.zoomed {
-            transform: scale(1.5);
-            cursor: zoom-out;
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: rgba(0, 0, 0, 0.7);
-            color: white;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            font-size: 1.5rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1001;
-            transition: all 0.3s ease;
-        }
-
-        .modal-close:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-            transform: scale(1.1);
-        }
-
-        .modal-caption {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(transparent, rgba(0,0,0,0.8));
-            color: white;
-            padding: 20px;
-            text-align: center;
-            font-size: 1.1rem;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .modal-content:hover .modal-caption {
-            opacity: 1;
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* Banner Styling */
@@ -219,7 +88,7 @@
             margin: 0 auto 20px;
         }
 
-        /* Back Button - Ikut hover effect dari index.html */
+        /* Back Button */
         .back-button {
             display: inline-block;
             padding: 12px 30px;
@@ -313,24 +182,18 @@
         }
 
         .profile-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 30px rgba(89, 93, 81, 0.25);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(89, 93, 81, 0.2);
             border-color: var(--primary-color);
         }
 
-        /* Profile Banner */
+        /* Profile Banner - SIMPLE */
         .profile-banner {
             height: 120px;
             width: 100%;
             background-size: cover;
             background-position: center;
             position: relative;
-            cursor: pointer;
-            transition: opacity 0.3s ease;
-        }
-
-        .profile-banner:hover {
-            opacity: 0.9;
         }
 
         .profile-banner::after {
@@ -366,11 +229,10 @@
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
             transition: transform 0.3s ease;
             background-color: var(--card-bg);
-            cursor: pointer;
         }
 
         .profile-img:hover {
-            transform: scale(1.08);
+            transform: scale(1.05);
         }
 
         .linkedin-badge {
@@ -415,18 +277,6 @@
             border-left: 3px solid var(--primary-color);
         }
 
-        .profile-company {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1rem;
-            color: var(--primary-color);
-            background-color: rgba(89, 93, 81, 0.15);
-            padding: 8px 16px;
-            border-radius: 25px;
-            font-weight: 500;
-        }
-
         .card-body {
             padding: 0 25px 25px 25px;
             display: flex;
@@ -438,7 +288,7 @@
             padding: 20px;
         }
 
-        /* Visit Button - Hijau dengan hover effect dari index.html */
+        /* Visit Button */
         .visit-button {
             display: inline-block;
             padding: 12px 30px;
@@ -479,7 +329,7 @@
             margin-right: 8px;
         }
 
-        /* Footer - Sama seperti index.html */
+        /* Footer */
         footer {
             background-color: var(--dark-bg);
             padding: 60px 40px 30px;
@@ -576,12 +426,6 @@
                 width: 100%;
                 justify-content: center;
             }
-            
-            .modal-content {
-                width: 95%;
-                height: 80vh;
-                margin: 10vh auto;
-            }
         }
 
         @media (max-width: 576px) {
@@ -604,26 +448,10 @@
             .profile-banner {
                 height: 100px;
             }
-            
-            .modal-content {
-                height: 70vh;
-                margin: 15vh auto;
-            }
         }
     </style>
 </head>
 <body>
-
-    <!-- Image Modal -->
-    <div id="imageModal" class="image-modal">
-        <div class="modal-content">
-            <button class="modal-close" id="modalClose">
-                <i class="fas fa-times"></i>
-            </button>
-            <img id="modalImage" src="" alt="Zoomed Image" class="modal-img" onerror="handleModalImageError()">
-            <div class="modal-caption" id="modalCaption"></div>
-        </div>
-    </div>
 
     <!-- Banner -->
     <div class="banner" data-aos="fade-down" data-aos-duration="800">
@@ -645,22 +473,13 @@
         <div class="profiles-container">
             <!-- Profile 1: Muhammad Syafizam -->
             <div class="profile-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
-                <div class="profile-banner" style="background-image: url('mybanner.jpg'), url('https://images.unsplash.com/photo-1517134191118-9d595e4c8c2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80')" 
-                     data-image-src="mybanner.jpg" 
-                     data-caption="Banner Profil - Muhammad Syafizam">
-                    <div class="image-error" style="display: none;">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <span>Banner tidak tersedia</span>
-                    </div>
+                <div class="profile-banner" style="background-image: url('mybanner.jpg')">
                 </div>
                 <div class="card-header">
                     <div class="profile-img-container">
                         <img src="Fizam2.jpg" 
                              alt="Muhammad Syafizam" 
-                             class="profile-img" 
-                             data-image-src="Fizam2.jpg" 
-                             data-caption="Muhammad Syafizam - CTF Player & CyberSecurity Student"
-                             onerror="handleImageError(this, 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80')">
+                             class="profile-img">
                         <div class="linkedin-badge">in</div>
                     </div>
                     <div class="profile-info">
@@ -679,29 +498,24 @@
 
             <!-- Profile 2: Alia Dania -->
             <div class="profile-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
-                <div class="profile-banner" style="background-image: url('liabanner.jpg'), url('https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80')" 
-                     data-image-src="liabanner.jpg" 
-                     data-caption="Banner Profil - Alia Dania">
-                    <div class="image-error" style="display: none;">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <span>Banner tidak tersedia</span>
-                    </div>
+                <div class="profile-banner" style="background-image: url('liabanner.jpg')">
                 </div>
                 <div class="card-header">
                     <div class="profile-img-container">
                         <img src="lia.jpg" 
                              alt="Alia Dania" 
-                             class="profile-img" 
-                             data-image-src="lia.jpg" 
-                             data-caption="Alia Dania - Chief Executive Officer di Capital A"
-                             onerror="handleImageError(this, 'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80')">
+                             class="profile-img">
                         <div class="linkedin-badge">in</div>
                     </div>
                     <div class="profile-info">
                         <div class="profile-name">
                             Alia Dania
                         </div>
-                        <div class="profile-title">Chief Executive Officer di Capital A - Memimpin transformasi digital dan penerbangan serantau dengan visi inovatif dan kepimpinan strategik.</div>
+                        <div class="profile-title">18 years old. Love physics and curious about
+everything—especially cybersecurity, computer
+science, geophysics and anything about life.
+A science stream high school graduate and
+always learning!</div>
                     </div>
                 </div>
                 <div class="card-body">
@@ -713,22 +527,13 @@
 
             <!-- Profile 3: Siti Norliza (Liza) Mohd Sahar -->
             <div class="profile-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="500">
-                <div class="profile-banner" style="background-image: url('https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80')" 
-                     data-image-src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" 
-                     data-caption="Banner Profil - Siti Norliza Mohd Sahar">
-                    <div class="image-error" style="display: none;">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <span>Banner tidak tersedia</span>
-                    </div>
+                <div class="profile-banner" style="background-image: url('https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80')">
                 </div>
                 <div class="card-header">
                     <div class="profile-img-container">
-                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" 
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
                              alt="Siti Norliza Mohd Sahar" 
-                             class="profile-img" 
-                             data-image-src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" 
-                             data-caption="Siti Norliza Mohd Sahar - Talent Management Specialist"
-                             onerror="handleImageError(this, 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80')">
+                             class="profile-img">
                         <div class="linkedin-badge">in</div>
                     </div>
                     <div class="profile-info">
@@ -736,9 +541,6 @@
                             Siti Norliza (Liza) Mohd Sahar
                         </div>
                         <div class="profile-title">Talent Attraction | Talent Development and Management | Graduate Specialist | Employee Engagement Strategist - Pakar dalam pembangunan bakat dan strategi penglibatan pekerja.</div>
-                        <div class="profile-company">
-                            <i class="fas fa-users"></i> Pakar Pengurusan Bakat
-                        </div>
                     </div>
                 </div>
                 <div class="card-body">
@@ -750,7 +552,7 @@
         </div>
     </div>
 
-    <!-- Footer - Sama seperti index.html -->
+    <!-- Footer -->
     <footer data-aos="fade-up" data-aos-duration="800" data-aos-delay="600">
         <div class="footer-content">
             <div class="footer-logo">Hack<span>Dev</span></div>
@@ -777,174 +579,9 @@
             offset: 50
         });
 
-        // Image Error Handler
-        function handleImageError(imgElement, fallbackUrl) {
-            console.warn('Gambar gagal dimuat:', imgElement.src);
-            
-            // Show error state
-            const parent = imgElement.parentElement;
-            const errorDiv = parent.querySelector('.image-error');
-            if (errorDiv) {
-                errorDiv.style.display = 'flex';
-            }
-            
-            // Set fallback image
-            imgElement.src = fallbackUrl;
-            imgElement.onerror = null; // Prevent infinite loop
-        }
-
-        function handleBannerError(bannerElement) {
-            console.warn('Banner gagal dimuat:', bannerElement.style.backgroundImage);
-            
-            // Show error state
-            const errorDiv = bannerElement.querySelector('.image-error');
-            if (errorDiv) {
-                errorDiv.style.display = 'flex';
-            }
-        }
-
-        function handleModalImageError() {
-            const modalImg = document.getElementById('modalImage');
-            modalImg.src = 'https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80';
-            modalImg.alt = 'Gambar alternatif - Fail asal tidak ditemui';
-            
-            const caption = document.getElementById('modalCaption');
-            caption.textContent = 'Gambar asal tidak tersedia. Ini adalah gambar alternatif.';
-        }
-
-        // Check all images on load
-        document.addEventListener('DOMContentLoaded', function() {
-            // Check profile images
-            document.querySelectorAll('.profile-img').forEach(img => {
-                const originalSrc = img.src;
-                
-                // Test if image loads
-                const testImage = new Image();
-                testImage.onload = function() {
-                    console.log('Gambar berjaya dimuat:', originalSrc);
-                };
-                testImage.onerror = function() {
-                    console.error('Gambar gagal dimuat:', originalSrc);
-                    
-                    // Check if there's a fallback in onerror attribute
-                    const onerrorAttr = img.getAttribute('onerror');
-                    if (onerrorAttr) {
-                        // Extract fallback URL from onerror attribute
-                        const match = onerrorAttr.match(/handleImageError\(.*?,'(.*?)'\)/);
-                        if (match && match[1]) {
-                            img.src = match[1];
-                        }
-                    }
-                };
-                testImage.src = originalSrc;
-            });
-
-            // Check banner images
-            document.querySelectorAll('.profile-banner').forEach(banner => {
-                const bgImage = banner.style.backgroundImage;
-                if (bgImage) {
-                    const urlMatch = bgImage.match(/url\(['"]?(.*?)['"]?\)/);
-                    if (urlMatch && urlMatch[1]) {
-                        const imageUrl = urlMatch[1];
-                        
-                        // Test if banner image loads
-                        const testImage = new Image();
-                        testImage.onload = function() {
-                            console.log('Banner berjaya dimuat:', imageUrl);
-                        };
-                        testImage.onerror = function() {
-                            console.error('Banner gagal dimuat:', imageUrl);
-                            handleBannerError(banner);
-                        };
-                        testImage.src = imageUrl;
-                    }
-                }
-            });
-        });
-
-        // Image Modal Functionality
-        const modal = document.getElementById('imageModal');
-        const modalImg = document.getElementById('modalImage');
-        const modalCaption = document.getElementById('modalCaption');
-        const modalClose = document.getElementById('modalClose');
-        let isZoomed = false;
-
-        // Function to open modal with image
-        function openImageModal(imageSrc, caption) {
-            modal.style.display = 'block';
-            modalImg.src = imageSrc;
-            modalImg.classList.remove('zoomed');
-            isZoomed = false;
-            modalCaption.textContent = caption || '';
-            document.body.style.overflow = 'hidden';
-        }
-
-        // Function to close modal
-        function closeImageModal() {
-            modal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-        // Click image to zoom in/out
-        modalImg.addEventListener('click', function() {
-            isZoomed = !isZoomed;
-            this.classList.toggle('zoomed', isZoomed);
-        });
-
-        // Close modal when clicking close button
-        modalClose.addEventListener('click', closeImageModal);
-
-        // Close modal when clicking outside the image
-        modal.addEventListener('click', function(e) {
-            if (e.target === modal) {
-                closeImageModal();
-            }
-        });
-
-        // Close modal with Escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && modal.style.display === 'block') {
-                closeImageModal();
-            }
-        });
-
-        // Add click event to ALL profile images and banners
-        document.querySelectorAll('.profile-img, .profile-banner').forEach(element => {
-            element.addEventListener('click', function(e) {
-                e.stopPropagation();
-                
-                let imageSrc, caption;
-                
-                if (this.classList.contains('profile-img')) {
-                    // For profile images
-                    imageSrc = this.getAttribute('data-image-src') || this.src;
-                    caption = this.getAttribute('data-caption') || this.alt;
-                } else if (this.classList.contains('profile-banner')) {
-                    // For banners
-                    imageSrc = this.getAttribute('data-image-src');
-                    caption = this.getAttribute('data-caption');
-                    
-                    // Fallback to background image
-                    if (!imageSrc) {
-                        const bgImage = this.style.backgroundImage;
-                        if (bgImage) {
-                            const urlMatch = bgImage.match(/url\(['"]?(.*?)['"]?\)/);
-                            if (urlMatch && urlMatch[1]) {
-                                imageSrc = urlMatch[1];
-                            }
-                        }
-                    }
-                }
-                
-                // Open modal if we have an image source
-                if (imageSrc) {
-                    openImageModal(imageSrc, caption);
-                } else {
-                    console.error('Tiada sumber gambar ditemui');
-                }
-            });
-        });
-
+        // Simple JavaScript tanpa modal
+        console.log('LinkedIn Profiles Page Loaded');
+        
         // Add hover effect to profile cards
         document.querySelectorAll('.profile-card').forEach(card => {
             card.addEventListener('mouseenter', function() {
@@ -956,16 +593,9 @@
             });
         });
 
-        // Confirmation for LinkedIn visit
-        document.querySelectorAll('.visit-button').forEach(button => {
-            button.addEventListener('click', function(e) {
-                console.log('Visiting LinkedIn profile: ' + this.href);
-            });
-        });
-
         // Smooth transition when leaving page
         document.querySelectorAll('a[href^="http"], a[href$=".html"]').forEach(link => {
-            if (!link.classList.contains('visit-button') && !link.classList.contains('profile-img') && !link.classList.contains('profile-banner')) {
+            if (!link.classList.contains('visit-button')) {
                 link.addEventListener('click', function(e) {
                     if (!this.target || this.target !== '_blank') {
                         e.preventDefault();
@@ -981,4 +611,4 @@
         });
     </script>
 </body>
-    </html>
+                </html>
